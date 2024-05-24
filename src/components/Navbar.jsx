@@ -3,8 +3,8 @@ import React from "react";
 function Navbar(){
     return (
         <>
-            <nav className="bg-slate-800 text-white h-14">
-                <div className="mycontainer flex justify-between px-4 py-5 items-center">
+            <nav className="bg-slate-800 text-white">
+                <div className="mycontainer flex justify-between px-4 py-3 items-center">
                     <div className="logo font-bold text-2xl">
                         <span className="text-green-700">
                             &lt;
@@ -23,6 +23,10 @@ function Navbar(){
                             <a className="hover:font-bold" href="/">Contact</a>
                         </li>
                     </ul>
+                    <button className="flex flex-row justify-center items-center bg-green-600 rounded-full pr-3 hover:bg-green-900">
+                        <img className="invert-[1]" width="60px" src="/images/github.svg" alt=""/>
+                        <span className="font-bold text-xl">GitHub</span>
+                    </button>
                 </div>
             </nav>
         </>
