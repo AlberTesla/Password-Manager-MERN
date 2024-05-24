@@ -35,7 +35,7 @@ const Manager = () => {
     }
 
     function handleChange(e) {
-        setform({ ...form, [e.target.name]: e.target.value });
+        setform({...form, [e.target.name]: e.target.value});
     }
 
     function addData() {
@@ -96,7 +96,7 @@ const Manager = () => {
                 <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-fuchsia-400 opacity-20 blur-[100px]">
                 </div>
             </div>
-            <div className="mycontainer">
+            <div className="px-2 md:px-0 md:mycontainer">
                 <h1 className='text-4xl font-bold flex justify-center'>
                     <span className="text-green-700">
                         &lt;
@@ -111,7 +111,7 @@ const Manager = () => {
                 <p className="text-green-900 text-center text-lg">Your own password manager</p>
                 <div className="text-white flex gap-8 flex-col items-center p-4">
                     <input value={form.site} onChange={handleChange} name="site" placeholder="Enter Website URL" className="rounded-full w-full border p-4 py-1 text-black border-green-500" type="text" />
-                    <div className="flex gap-8 w-full">
+                    <div className="flex md:flex-row flex-col gap-8 w-full">
                         <input value={form.username} onChange={handleChange} name="username" placeholder="Enter Username" className="rounded-full border p-4 py-1 w-full border-green-500 text-black" type="text" />
                         <div className="relative">
                             <input ref={ref1} value={form.password} onChange={handleChange} name="password" placeholder="Enter Password" className="rounded-full border p-4 py-1 w-full border-green-500 text-black" type="text" />
@@ -148,27 +148,27 @@ const Manager = () => {
                                                 <a href={element.site} target="_blank">
                                                     {element.site}
                                                 </a>
-                                                <img onClick={function () { copyText(element.site) }} width="20px" className="hover:invert-[.5]" src="/images/copy.svg" alt="" />
+                                                <img onClick={function(){ copyText(element.site)}} width="20px" className="hover:invert-[.5]" src="/images/copy.svg" alt="" />
                                             </div>
                                         </td>
                                         <td className="text-center w-32 py-2 border border-white">
-                                            <div className="flex flex-row justify-center items-center gap-1">
+                                            <div className="flex flex-row overflow-hidden justify-center items-center gap-1">
                                                 <span>
                                                     {element.username}
                                                 </span>
-                                                <img onClick={function () { copyText(element.username) }} width="20px" className="cursor-pointer hover:invert-[.5]" src="/images/copy.svg" alt="" />
+                                                <img onClick={function(){ copyText(element.username)}} width="20px" className="cursor-pointer hover:invert-[.5]" src="/images/copy.svg" alt="" />
                                             </div>
                                         </td>
                                         <td className="text-center w-32 py-2 border border-white">
-                                            <div className="flex flex-row justify-center items-center gap-1">
+                                            <div className="flex flex-row overflow-ellipsis justify-center items-center gap-1">
                                                 <span>
                                                     {element.password}
                                                 </span>
-                                                <img onClick={function () { copyText(element.password) }} width="20px" className="cursor-pointer hover:invert-[.5]" src="/images/copy.svg" alt="" />
+                                                <img onClick={function(){ copyText(element.password)}} width="20px" className="cursor-pointer hover:invert-[.5]" src="/images/copy.svg" alt="" />
                                             </div>
                                         </td>
                                         <td className="text-center w-32 py-2 border border-white">
-                                            <div className="flex flex-row justify-center items-center gap-2">
+                                            <div className="flex flex-row overflow-hidden justify-center items-center gap-2">
                                                 <img onClick={function(){editData(element.id)}} width="20px" className="cursor-pointer hover:invert-[.5]" src="/images/edit.svg" alt="" />
                                                 <img onClick={function(){deleteData(element.id)}} width="20px" className="cursor-pointer hover:invert-[.5]" src="/images/delete.svg" alt="" />
                                             </div>
