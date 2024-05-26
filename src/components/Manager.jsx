@@ -4,6 +4,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { v4 as uuidv4 } from 'uuid';
 
+const serverUrl = "http://localhost:3000";
+
 const Manager = () => {
     const [form, setform] = useState({
         site: "",
@@ -16,11 +18,20 @@ const Manager = () => {
     const ref = useRef()
     const ref1 = useRef();
 
-    useEffect(function () {
-        let storage = JSON.parse(localStorage.getItem("data"));
-        if (storage) {
-            setArray(storage);
-        }
+    async function getRequest(){
+        
+        const response = await fetch(serverUrl);
+        const jsondata = await response.json();
+        console.log(await jsondata);
+        setArray(jsondata);
+    }
+
+    useEffect(function() {
+        // let storage = JSON.parse(localStorage.getItem("data"));
+        getRequest();
+        // if (storage) {
+        //     setArray(storage);
+        // }
     }, []);
 
     function showHidePassword() {
@@ -38,13 +49,25 @@ const Manager = () => {
         setform({...form, [e.target.name]: e.target.value});
     }
 
+    async function postData(formdata){
+        const response = fetch(serverUrl, {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify({...form, id : uuidv4()})// body data type must match "Content-Type" header
+        });
+    }
+
     function addData() {
         if (form.site === "" || form.username === "" || form.password === "") {
             console.log("one of the input fields is empty");
             return
         }
+        postData(form);
         setArray([...array, {...form, id : uuidv4()}]);
-        localStorage.setItem("data", JSON.stringify([...array, {...form, id : uuidv4()}]));
+        // localStorage.setItem("data", JSON.stringify([...array, {...form, id : uuidv4()}]));
         setform({site : "", username : "", password : ""})
     }
 
@@ -62,18 +85,42 @@ const Manager = () => {
         navigator.clipboard.writeText(textData);
     }
 
-    function editData(data){
+    async function editData(data){
+        let dataToDelete = array.filter(function(element){return (element.id === data)})[0];
+        const response = await fetch(serverUrl, {
+            method: "DELETE",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({site : dataToDelete.site, username : dataToDelete.username, password : dataToDelete.password,
+                id : dataToDelete.id
+            })
+        });
+        console.log(JSON.stringify(array.filter(function(element){return (element.id === data)})[0]))
+        // setArray(array.filter(function(element){return (element.id !== id)}));
+
         setArray(array.filter(function(element){return (element.id !== data)}));
         localStorage.setItem("data", JSON.stringify(array.filter(function(element){return (element.id !== data)})));
         const item = array.filter(function(element){return (element.id === data)})[0];
         setform(item);
     }
 
-    function deleteData(data){
+    async function deleteData(id){
         let conf = confirm("are you sure you want to delete the info")
+        let dataToDelete = array.filter(function(element){return (element.id === id)})[0];
         if (!conf) return
-        setArray(array.filter(function(element){return (element.id !== data)}));
-        localStorage.setItem("data", JSON.stringify(array.filter(function(element){return (element.id !== data)})));
+        const response = await fetch(serverUrl, {
+            method: "DELETE",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({site : dataToDelete.site, username : dataToDelete.username, password : dataToDelete.password,
+                id : dataToDelete.id
+            })
+        });
+        console.log(JSON.stringify(array.filter(function(element){return (element.id === id)})[0]))
+        setArray(array.filter(function(element){return (element.id !== id)}));
+        // localStorage.setItem("data", JSON.stringify(array.filter(function(element){return (element.id !== data)})));
     }
 
     return (
